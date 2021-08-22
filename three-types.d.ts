@@ -1,0 +1,1 @@
+export * from "@react-three/fiber/dist/react-three-fiber.cjs";
