@@ -1,4 +1,4 @@
-import ShinyButton from "../../../components/Button/styled/ShinyButton";
+import { ShinyButton } from "../../../components/core/Button";
 
 function Shiny() {
   return (
