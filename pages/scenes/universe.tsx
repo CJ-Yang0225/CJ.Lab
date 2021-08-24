@@ -1,7 +1,12 @@
-import Scene from "../../three/scenes/Universe";
+import RenderLayer from "../../components/layers/RenderLayer";
+import Layout from "../../components/Layout";
 
 function Universe() {
-  return <Scene />;
+  return (
+    <Layout backgroundColor="#010113">
+      <RenderLayer />
+    </Layout>
+  );
 }
 
 export default Universe;

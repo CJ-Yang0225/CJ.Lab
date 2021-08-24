@@ -1,7 +1,7 @@
 import React, { useRef } from "react";
 import * as THREE from "three";
 import { Mesh, TextureLoader } from "three";
-import { useFrame, useLoader } from "@react-three/fiber";
+import { GroupProps, useFrame, useLoader } from "@react-three/fiber";
 
 const EarthDayMap = "/textures/8k_earth_daymap.jpg";
 const EarthSpecularMap = "/textures/8k_earth_specular_map.jpg";
@@ -15,7 +15,7 @@ const combinedTextureMaps = [
   EarthCloudMap,
 ];
 
-function Earth() {
+function Earth(props: GroupProps) {
   const [colorMap, specularMap, normalMap, cloudMap] = useLoader(
     TextureLoader,
     combinedTextureMaps
@@ -34,12 +34,12 @@ function Earth() {
   });
 
   return (
-    <React.Fragment>
+    <group {...props}>
       <mesh ref={cloudRef}>
         <sphereGeometry args={[1.505, 56, 56]} />
-        <meshStandardMaterial
+        <meshLambertMaterial
           map={cloudMap}
-          opacity={0.3}
+          opacity={0.35}
           depthWrite={true}
           transparent={true}
           side={THREE.DoubleSide}
@@ -52,10 +52,10 @@ function Earth() {
           map={colorMap}
           normalMap={normalMap}
           metalness={0.3}
-          roughness={0.8}
+          roughness={0.6}
         />
       </mesh>
-    </React.Fragment>
+    </group>
   );
 }
 
