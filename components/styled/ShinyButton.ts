@@ -1,6 +1,6 @@
 import { keyframes } from "@emotion/react";
 import styled from "@emotion/styled";
-import Button from "../Button";
+import Button from "../core/Button/Button";
 
 const sheen = keyframes`
   100% {
@@ -9,12 +9,10 @@ const sheen = keyframes`
 `;
 
 const ShinyButton = styled(Button)`
-  position: relative;
   overflow: hidden;
-
   padding: 0.5em 1em;
 
-  border: none;
+  border: 0;
   border-radius: 0.5em;
   ${({ backgroundColor, textColor }) => ({
     color: textColor,
@@ -41,7 +39,6 @@ const ShinyButton = styled(Button)`
   }
 
   &:hover {
-    cursor: pointer;
     transform: scale(1.25);
   }
 

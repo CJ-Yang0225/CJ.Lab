@@ -1,8 +1,8 @@
 import React from "react";
 import { ComponentStory, ComponentMeta } from "@storybook/react";
 
-import { Button, StyledButton } from "./Button";
-import ShinyButton from "../components/core/Button/styled/ShinyButton";
+import { Button } from "./Button";
+import ShinyButton from "../components/styled/ShinyButton";
 
 export default {
   title: "Example/Button",

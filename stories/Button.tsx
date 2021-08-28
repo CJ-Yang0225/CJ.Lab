@@ -52,7 +52,3 @@ export const Button = ({
     </button>
   );
 };
-
-export const StyledButton = styled(Button)`
-  color: red;
-`;

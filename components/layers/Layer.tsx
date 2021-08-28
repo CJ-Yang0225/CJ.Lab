@@ -5,6 +5,7 @@ export type LayerContainerProps = {
 };
 
 export type LayerProps = {
+  zIndex?: number;
   hidden?: boolean;
 };
 
@@ -24,6 +25,7 @@ const Layer = styled.div<LayerProps>`
   left: 0;
   width: 100%;
   height: 100%;
+  ${({ zIndex }) => ({ zIndex })}
 
   &hidden {
     opacity: 0;

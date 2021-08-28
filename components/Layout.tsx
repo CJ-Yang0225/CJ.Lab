@@ -1,5 +1,5 @@
 import React from "react";
-import Layer from "./layers/BaseLayer";
+import Layer from "./layers/Layer";
 
 type LayoutProps = {
   backgroundColor?: string;
