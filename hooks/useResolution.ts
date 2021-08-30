@@ -7,15 +7,14 @@ export const useResolution = (
   options = { savingMode: false, immediate: false }
 ) => {
   const { savingMode, immediate } = useMemo(() => options, [options]);
-  const [resolution, setResolution] = useState<Resolution>([
-    window.innerWidth,
-    window.innerHeight,
-  ]);
+  const [resolution, setResolution] = useState<Resolution>([0, 0]); // [window.innerWidth, window.innerHeight] causes 'window is not defined error'
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     const updateResolution = () => {
       setResolution([window.innerWidth, window.innerHeight]);
     };
+
+    updateResolution();
 
     const debouncedUpdateResolution = debounce(updateResolution, 50, immediate);
 
