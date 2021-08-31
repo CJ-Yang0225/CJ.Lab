@@ -1,4 +1,4 @@
-const withPlugins = require("next-compose-plugins"); // for glsl files
+const withPlugins = require("next-compose-plugins"); // for glsl file loaders
 const withTM = require("next-transpile-modules")(["three"]);
 
 const nextConfig = {
@@ -13,4 +13,7 @@ const nextConfig = {
   },
 };
 
-module.exports = withPlugins([withTM], nextConfig);
+module.exports = withPlugins(
+  [withTM],
+  Object.assign(nextConfig, { reactStrictMode: true })
+);
