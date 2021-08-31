@@ -1,4 +1,5 @@
-const plugins = require("next-compose-plugins"); // for glsl files
+const withPlugins = require("next-compose-plugins"); // for glsl files
+const withTM = require("next-transpile-modules")(["three"]);
 
 const nextConfig = {
   webpack(config, { webpack, dev, isServer }) {
@@ -12,4 +13,4 @@ const nextConfig = {
   },
 };
 
-module.exports = plugins([], nextConfig);
+module.exports = withPlugins([withTM], nextConfig);
