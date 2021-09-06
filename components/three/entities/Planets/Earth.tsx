@@ -4,8 +4,6 @@ import { Mesh, ShaderMaterial, TextureLoader } from "three";
 import { extend, GroupProps, useFrame, useLoader } from "@react-three/fiber";
 import { shaderMaterial } from "@react-three/drei";
 // @ts-ignore
-import glsl from "glslify";
-// @ts-ignore
 import vertex from "../../glsl/shader.vert";
 import { useResolution } from "../../../../hooks/useResolution";
 
@@ -30,7 +28,7 @@ export const HaloTest = shaderMaterial(
     u_resolution: new THREE.Vector2(0, 0),
   },
   vertex,
-  glsl`
+  /* glsl */`
     precision mediump float;
     uniform float u_time;
     uniform vec3 u_color;
@@ -49,27 +47,6 @@ export const HaloTest = shaderMaterial(
 
 extend({ HaloTest });
 
-const vs = glsl`
-  varying vec2 v_uv;
-
-  void main() {
-    v_uv = uv;
-    gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
-  }
-`;
-
-const fs = glsl`
-  precision mediump float;
-  uniform float u_time;
-  uniform vec3 u_color;
-  uniform vec2 u_resolution;
-  varying vec2 v_uv;
-
-  void main() {
-    gl_FragColor = vec4(abs(sin(u_time)), 0.0, 1.0, 1.0);
-  }
-`;
-
 function Earth(props: GroupProps) {
   const [dayMap, nightMap, specularMap, normalMap, cloudMap] = useLoader(
     TextureLoader,
@@ -87,8 +64,6 @@ function Earth(props: GroupProps) {
   const cloudRef = useRef<Mesh | null>(null);
   const materialRef = useRef<ShaderMaterial | null>(null);
 
-  const timeRef = useRef(0.0);
-
   useFrame(({ clock }) => {
     const angleByElapsedTime = clock.getElapsedTime() % 360;
     if (cloudRef.current && earthRef.current && materialRef.current) {
@@ -98,25 +73,10 @@ function Earth(props: GroupProps) {
     }
   });
 
-  console.log("re-render:", width, height);
-
   return (
     <group {...props} onClick={() => setDarkTheme((theme) => !theme)}>
       <mesh visible={darkTheme}>
         <sphereBufferGeometry args={[1.52, 28, 28]} />
-        {/* <shaderMaterial
-          ref={materialRef}
-          wireframe
-          attach="material"
-          vertexShader={vs}
-          fragmentShader={fs}
-          uniforms={{
-            u_color: {
-              value: new THREE.Color(1.0, 0, 1.0),
-            },
-            u_time: { value: 0.0 },
-          }}
-        /> */}
         <haloTest
           ref={materialRef}
           wireframe
