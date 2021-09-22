@@ -1,6 +1,8 @@
+import dynamic from "next/dynamic";
 import { useRouter } from "next/router";
 import ShinyButton from "../../components/styled/ShinyButton";
-import Layout from "../../components/Layout";
+
+const Layout = dynamic(() => import("../../components/Layout"), { ssr: false });
 
 function Universe() {
   const router = useRouter();
