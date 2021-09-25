@@ -1,6 +1,6 @@
 import { keyframes } from "@emotion/react";
 import styled from "@emotion/styled";
-import Button from "../core/Button/Button";
+import Button from "../common/Button/Button";
 
 const sheen = keyframes`
   100% {
