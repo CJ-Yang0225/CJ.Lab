@@ -1,12 +1,17 @@
 import { ReactThreeFiber } from "@react-three/fiber/dist/react-three-fiber.cjs";
-import { SphereGeometry } from "three";
+import { ShaderMaterial } from "three";
 
-// export * from "@react-three/fiber/dist/react-three-fiber.cjs";
+import { HaloTest } from "./components/three/entities/Planets/Earth";
+import { WaveShaderMaterial } from "./components/three/entities/Banner";
 
 declare global {
   namespace JSX {
     interface IntrinsicElements {
       haloTest: ReactThreeFiber.Object3DNode<HaloTest, typeof HaloTest>;
+      waveShaderMaterial: ReactThreeFiber.Object3DNode<
+        WaveShaderMaterial,
+        typeof WaveShaderMaterial
+      >;
     }
   }
 }
