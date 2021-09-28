@@ -11,7 +11,6 @@ const sheen = keyframes`
 const ShinyButton = styled(Button)`
   overflow: hidden;
   padding: 0.5em 1em;
-
   border: 0;
   border-radius: 0.5em;
   ${({ backgroundColor, textColor }) => ({

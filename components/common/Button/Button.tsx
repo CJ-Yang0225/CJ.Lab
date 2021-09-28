@@ -1,4 +1,4 @@
-import React, { AllHTMLAttributes, ReactNode } from "react";
+import React from "react";
 import styled, { CSSObject } from "@emotion/styled";
 
 type ReactButtonProps = React.HTMLAttributes<HTMLButtonElement>;
