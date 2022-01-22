@@ -1,7 +1,7 @@
 import Head from "next/head";
 import { Canvas } from "@react-three/fiber";
 
-import WaveBanner from "../components/three/entities/Banner/WaveBanner";
+import WaveBanner from "../3d/entities/Banner/WaveBanner";
 import { Suspense } from "react";
 import Layer from "../components/layers/Layer";
 

@@ -1,8 +1,8 @@
 import { ReactThreeFiber } from "@react-three/fiber/dist/react-three-fiber.cjs";
 import { ShaderMaterial } from "three";
 
-import { HaloTest } from "./components/three/entities/Planets/Earth";
-import { WaveShaderMaterial } from "./components/three/entities/Banner";
+import { HaloTest } from "./3d/entities/Planets/Earth";
+import { WaveShaderMaterial } from "./3d/entities/Banner";
 
 declare global {
   namespace JSX {

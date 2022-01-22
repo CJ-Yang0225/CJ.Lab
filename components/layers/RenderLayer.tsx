@@ -1,10 +1,10 @@
 import React, { Suspense } from "react";
 import styled from "@emotion/styled";
 
-import Scene from "../three/scenes/Universe/Scene";
+import Scene from "../../3d/scenes/Universe/Scene";
 import { Canvas } from "@react-three/fiber";
 import LayerBase from "./Layer";
-import { LayerUsage } from "../../lib/utils";
+import { LayerUsage } from "../../utils/helper";
 
 const Layer = styled(LayerBase)`
   transition-property: opacity;

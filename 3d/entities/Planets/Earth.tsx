@@ -5,7 +5,7 @@ import { extend, GroupProps, useFrame, useLoader } from "@react-three/fiber";
 import { shaderMaterial } from "@react-three/drei";
 // @ts-ignore
 import vertex from "../../glsl/shader.vert";
-import { useResolution } from "../../../../hooks/useResolution";
+import { useResolution } from "../../../hooks/useResolution";
 
 const EarthDayMap = "/textures/8k_earth_daymap.jpg";
 const EarthNightMap = "/textures/8k_earth_nightmap.jpg";
