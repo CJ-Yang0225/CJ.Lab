@@ -1,26 +1,24 @@
 import { useEffect, useLayoutEffect, useState } from "react";
-import { debounce } from "../lib/utils";
 
-export type Resolution = [number, number];
+import { debounce } from "../utils/helper";
+
+export type Resolution = [number | undefined, number | undefined];
 
 const useIsomorphicLayoutEffect =
   typeof window === "undefined" ? useEffect : useLayoutEffect;
 
-const initialResolution: Resolution =
-  typeof window === "undefined"
-    ? [0, 0]
-    : [window.innerWidth, window.innerHeight];
+const initialResolution: Resolution = [undefined, undefined];
 
 export const useResolution = (
   options = { savingMode: false, immediate: false }
 ) => {
   const { savingMode, immediate } = options;
-  const [resolution, setResolution] = useState<Resolution>(initialResolution); // [window.innerWidth, window.innerHeight] causes 'window is not defined error'
-  const updateResolution = () => {
-    setResolution([window.innerWidth, window.innerHeight]);
-  };
+  const [resolution, setResolution] = useState<Resolution>(initialResolution);
 
   useIsomorphicLayoutEffect(() => {
+    const updateResolution = () => {
+      setResolution([window.innerWidth, window.innerHeight]);
+    };
     updateResolution();
 
     const debouncedUpdateResolution = debounce(
