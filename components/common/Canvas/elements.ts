@@ -4,4 +4,6 @@ export const CanvasContainer = styled.div`
   position: relative;
   width: 100%;
   height: 100vh;
+  user-select: none;
+  overflow: hidden;
 `;
