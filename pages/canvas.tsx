@@ -1,11 +1,13 @@
-import dynamic from "next/dynamic";
+import React, { useEffect } from "react";
 
-const Canvas = dynamic(() => import("../components/common/Canvas"), {
-  ssr: false,
-});
+import Canvas from "../components/common/Canvas";
+import { useCanvas } from "../hooks/useCanvas";
+import { renderParticles } from "../components/common/Canvas/drawing";
 
 function CanvasPage() {
-  return <Canvas />;
+  const { ref, ...canvasProps } = useCanvas(renderParticles);
+
+  return <Canvas {...canvasProps} ref={ref as React.Ref<HTMLCanvasElement>} />;
 }
 
 export default CanvasPage;
