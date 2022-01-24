@@ -60,9 +60,9 @@ function Earth(props: GroupProps) {
 
   const [darkTheme, setDarkTheme] = useState(false);
 
-  const earthRef = useRef<Mesh | null>(null);
-  const cloudRef = useRef<Mesh | null>(null);
-  const materialRef = useRef<ShaderMaterial | null>(null);
+  const earthRef = useRef<Mesh>(null);
+  const cloudRef = useRef<Mesh>(null);
+  const materialRef = useRef<ShaderMaterial>(null);
 
   useFrame(({ clock }) => {
     const angleByElapsedTime = clock.getElapsedTime() % 360;
