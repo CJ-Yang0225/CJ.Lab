@@ -3,7 +3,7 @@ import React from "react";
 import Earth from "../../entities/Planets/Earth";
 import { OrbitControls, Stars } from "@react-three/drei";
 
-function Scene() {
+function Solar() {
   return (
     <React.Fragment>
       <Stars
@@ -25,4 +25,4 @@ function Scene() {
   );
 }
 
-export default Scene;
+export default Solar;
