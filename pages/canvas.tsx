@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 
 import Canvas from "../components/common/Canvas";
 import { useCanvas } from "../hooks/useCanvas";
-import { renderParticles } from "../components/common/Canvas/drawing";
+import { renderParticles } from "../components/common/Canvas/particles/rgb";
 
 function CanvasPage() {
   const { ref, ...canvasProps } = useCanvas(renderParticles);

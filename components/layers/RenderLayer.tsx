@@ -1,7 +1,7 @@
 import React, { Suspense } from "react";
 import styled from "@emotion/styled";
 
-import Scene from "../../3d/scenes/Universe/Scene";
+import Solar from "../../3d/scenes/Universe/Index";
 import { Canvas } from "@react-three/fiber";
 import LayerBase from "./Layer";
 import { LayerUsage } from "../../utils/helper";
@@ -21,7 +21,7 @@ function RenderLayer() {
     <Layer zIndex={LayerUsage.Background}>
       <Canvas>
         <Suspense fallback={null}>
-          <Scene />
+          <Solar />
         </Suspense>
       </Canvas>
     </Layer>
