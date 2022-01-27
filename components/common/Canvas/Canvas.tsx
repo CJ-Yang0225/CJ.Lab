@@ -2,28 +2,36 @@ import React from "react";
 
 import { useResolution } from "../../../hooks/useResolution";
 import { CanvasContainer } from "./elements";
+import { useIsomorphicLayoutEffect } from "../../../hooks/useIsomorphicLayoutEffect";
 
-interface CanvasProps extends React.HTMLAttributes<HTMLCanvasElement> {}
-
-type MouseCoordinate = {
-  x: number;
-  y: number;
-};
+export interface CanvasProps extends React.HTMLAttributes<HTMLCanvasElement> {
+  dpr: number;
+}
 
 function Canvas(
   props: CanvasProps,
-  ref: React.ForwardedRef<HTMLCanvasElement>
+  canvasRef: React.ForwardedRef<HTMLCanvasElement>
 ) {
   const [width, height] = useResolution({ savingMode: true, immediate: false });
+  const { dpr = 1, ...restProps } = props;
+
+  useIsomorphicLayoutEffect(() => {
+    const canvas = document.querySelector("canvas")!;
+    const ctx = canvas?.getContext && canvas.getContext("2d")!;
+
+    canvas.style.width = width + "px";
+    canvas.style.height = height + "px";
+    ctx.scale(dpr, dpr);
+  }, [canvasRef, dpr, height, width]);
 
   return (
     <Canvas.Container style={{ backgroundColor: "#000000" }}>
       <canvas
-        ref={ref}
-        width={width}
-        height={height}
+        ref={canvasRef}
+        width={Math.floor(width * dpr)}
+        height={Math.floor(height * dpr)}
         onContextMenu={(event) => event.preventDefault()}
-        {...props}
+        {...restProps}
       />
     </Canvas.Container>
   );
