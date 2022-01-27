@@ -1,16 +1,24 @@
-import React, { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
+
+import { CanvasProps } from "../components/common/Canvas/Canvas";
 
 export function useCanvas(
-  renderingFunc: (canvas: HTMLCanvasElement) => void
-): JSX.IntrinsicElements["canvas"] {
+  drawingFunc: (canvas: HTMLCanvasElement) => void
+): JSX.IntrinsicElements["canvas"] & CanvasProps {
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const [dpr, setDpr] = useState(1);
+
+  useEffect(() => {
+    const { devicePixelRatio = 1 } = window;
+    setDpr(devicePixelRatio);
+  }, [dpr]);
 
   useEffect(() => {
     const canvas = canvasRef.current!;
-    const clean = renderingFunc(canvas);
+    const clean = drawingFunc(canvas);
 
     return clean;
-  }, [renderingFunc]);
+  }, [drawingFunc]);
 
-  return { ref: canvasRef };
+  return { ref: canvasRef, dpr };
 }
