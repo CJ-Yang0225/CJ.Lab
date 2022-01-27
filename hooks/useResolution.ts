@@ -1,13 +1,11 @@
-import { useEffect, useLayoutEffect, useState } from "react";
+import { useState } from "react";
 
+import { useIsomorphicLayoutEffect } from "./useIsomorphicLayoutEffect";
 import { debounce } from "../utils/helper";
 
-export type Resolution = [number | undefined, number | undefined];
+export type Resolution = [number, number];
 
-const useIsomorphicLayoutEffect =
-  typeof window === "undefined" ? useEffect : useLayoutEffect;
-
-const initialResolution: Resolution = [undefined, undefined];
+const initialResolution: Resolution = [0, 0];
 
 export const useResolution = (
   options = { savingMode: false, immediate: false }
