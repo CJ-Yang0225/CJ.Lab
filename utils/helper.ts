@@ -47,3 +47,46 @@ export function throttle<F extends (...args: any[]) => any>(
     }
   };
 }
+
+export function isMobileDevice() {
+  const mobileDevice = [
+    "Android",
+    "webOS",
+    "iPhone",
+    "iPad",
+    "iPod",
+    "BlackBerry",
+    "Windows Phone",
+  ];
+  const isMobileDevice = mobileDevice.some((event) =>
+    navigator.userAgent.match(event)
+  );
+  return isMobileDevice;
+}
+
+export function toggleFullScreen() {
+  const doc = window.document as any;
+  const docEl = doc.documentElement;
+
+  const requestFullScreen =
+    docEl.requestFullscreen ||
+    docEl.mozRequestFullScreen ||
+    docEl.webkitRequestFullScreen ||
+    docEl.msRequestFullscreen;
+  const cancelFullScreen =
+    doc.exitFullscreen ||
+    doc.mozCancelFullScreen ||
+    doc.webkitExitFullscreen ||
+    doc.msExitFullscreen;
+
+  if (
+    !doc.fullscreenElement &&
+    !doc.mozFullScreenElement &&
+    !doc.webkitFullscreenElement &&
+    !doc.msFullscreenElement
+  ) {
+    requestFullScreen.call(docEl);
+  } else {
+    cancelFullScreen.call(doc);
+  }
+}

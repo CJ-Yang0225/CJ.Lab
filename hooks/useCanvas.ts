@@ -1,6 +1,8 @@
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 
 import { CanvasProps } from "../components/common/Canvas/Canvas";
+import { isMobileDevice, toggleFullScreen } from "../utils/helper";
+import { useIsomorphicLayoutEffect } from "./useIsomorphicLayoutEffect";
 
 export function useCanvas(
   drawingFunc: (canvas: HTMLCanvasElement) => void
@@ -8,12 +10,22 @@ export function useCanvas(
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [dpr, setDpr] = useState(1);
 
-  useEffect(() => {
+  useIsomorphicLayoutEffect(() => {
     const { devicePixelRatio = 1 } = window;
     setDpr(devicePixelRatio);
   }, [dpr]);
 
-  useEffect(() => {
+  useIsomorphicLayoutEffect(() => {
+    if (isMobileDevice()) {
+      window.addEventListener("dblclick", toggleFullScreen);
+    }
+
+    return () => {
+      window.removeEventListener("dblclick", toggleFullScreen);
+    };
+  }, []);
+
+  useIsomorphicLayoutEffect(() => {
     const canvas = canvasRef.current!;
     const clean = drawingFunc(canvas);
 
