@@ -1,6 +1,6 @@
 import React from "react";
 
-import { useResolution } from "../../../hooks/useResolution";
+import { useDimensions } from "../../../hooks/useDimensions";
 import { CanvasContainer } from "./elements";
 import { useIsomorphicLayoutEffect } from "../../../hooks/useIsomorphicLayoutEffect";
 
@@ -12,7 +12,7 @@ function Canvas(
   props: CanvasProps,
   canvasRef: React.ForwardedRef<HTMLCanvasElement>
 ) {
-  const [width, height] = useResolution({ savingMode: true, immediate: false });
+  const [width, height] = useDimensions({ savingMode: true });
   const { dpr = 1, ...restProps } = props;
 
   useIsomorphicLayoutEffect(() => {

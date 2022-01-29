@@ -5,7 +5,7 @@ import { extend, GroupProps, useFrame, useLoader } from "@react-three/fiber";
 import { shaderMaterial } from "@react-three/drei";
 // @ts-ignore
 import vertex from "../../glsl/shader.vert";
-import { useResolution } from "../../../hooks/useResolution";
+import { useDimensions } from "../../../hooks/useDimensions";
 
 const EarthDayMap = "/textures/8k_earth_daymap.jpg";
 const EarthNightMap = "/textures/8k_earth_nightmap.jpg";
@@ -28,7 +28,7 @@ export const HaloTest = shaderMaterial(
     u_resolution: new THREE.Vector2(0, 0),
   },
   vertex,
-  /* glsl */`
+  /* glsl */ `
     precision mediump float;
     uniform float u_time;
     uniform vec3 u_color;
@@ -53,9 +53,8 @@ function Earth(props: GroupProps) {
     textureMaps
   );
 
-  const [width, height] = useResolution({
+  const [width, height] = useDimensions({
     savingMode: true,
-    immediate: false,
   });
 
   const [darkTheme, setDarkTheme] = useState(false);
@@ -67,7 +66,7 @@ function Earth(props: GroupProps) {
   useFrame(({ clock }) => {
     const angleByElapsedTime = clock.getElapsedTime() % 360;
     if (cloudRef.current && earthRef.current && materialRef.current) {
-      cloudRef.current.rotation.y = angleByElapsedTime / 6;
+      cloudRef.current.rotation.y = angleByElapsedTime / 5.5;
       earthRef.current.rotation.y = angleByElapsedTime / 8;
       materialRef.current.uniforms.u_time.value = clock.getElapsedTime();
     }
