@@ -11,9 +11,9 @@ type Options = {
 
 const initialDimensions: Dimensions = [0, 0];
 
-export const useDimensions = (
+export function useDimensions(
   options: Options = { savingMode: false, immediate: false }
-) => {
+) {
   const { savingMode = false, immediate = false } = options;
   const [dimensions, setDimensions] = useState<Dimensions>(initialDimensions);
 
@@ -40,4 +40,4 @@ export const useDimensions = (
   }, [savingMode, immediate]);
 
   return dimensions;
-};
+}
