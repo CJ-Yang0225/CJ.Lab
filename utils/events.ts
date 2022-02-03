@@ -1,5 +1,5 @@
 export class EventStore {
-  private _listeners: (() => void)[];
+  private _listeners: (() => void)[] = [];
 
   add(
     target: EventTarget,
