@@ -1,4 +1,5 @@
-import { throttle } from "../../../../utils/helper";
+import { EventStore } from "../../../../utils/events";
+import { throttle } from "../../../../utils/helpers";
 
 const mouse = {
   x: 500,
@@ -130,14 +131,13 @@ export function renderParticles(canvas: HTMLCanvasElement) {
     canvas.dispatchEvent(mouseEvent);
   }, 30);
 
-  canvas.addEventListener("click", handleModeSwitch);
-  canvas.addEventListener("mousemove", handleMouseMove);
-  canvas.addEventListener("touchmove", handleTouchMove);
+  const eventStore = new EventStore();
+  eventStore.add(canvas, "click", handleModeSwitch);
+  eventStore.add(canvas, "mousemove", handleMouseMove);
+  eventStore.add(canvas, "touchmove", handleTouchMove);
 
   return () => {
     cancelAnimationFrame(animationFrameId);
-    removeEventListener("click", handleModeSwitch);
-    removeEventListener("mousemove", handleMouseMove);
-    removeEventListener("touchmove", handleTouchMove);
+    eventStore.clean();
   };
 }
