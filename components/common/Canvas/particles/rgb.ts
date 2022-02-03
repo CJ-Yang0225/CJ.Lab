@@ -1,5 +1,5 @@
 import { EventStore } from "../../../../utils/events";
-import { throttle } from "../../../../utils/helpers";
+import { throttle } from "../../../../utils/ux";
 
 const mouse = {
   x: 500,

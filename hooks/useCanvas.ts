@@ -1,7 +1,7 @@
 import { useRef, useState } from "react";
 
 import { CanvasProps } from "../components/common/Canvas/Canvas";
-import { isMobileDevice, toggleFullScreen } from "../utils/helper";
+import { isMobileDevice, toggleFullScreen } from "../utils/ux";
 import { useIsomorphicLayoutEffect } from "./useIsomorphicLayoutEffect";
 
 export function useCanvas(

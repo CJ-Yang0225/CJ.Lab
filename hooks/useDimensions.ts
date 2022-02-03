@@ -1,7 +1,7 @@
 import { useState } from "react";
 
 import { useIsomorphicLayoutEffect } from "./useIsomorphicLayoutEffect";
-import { debounce } from "../utils/helper";
+import { debounce } from "../utils/ux";
 
 export type Dimensions = [number, number];
 type Options = {

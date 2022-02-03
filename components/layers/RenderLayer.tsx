@@ -4,7 +4,7 @@ import styled from "@emotion/styled";
 import Solar from "../../3d/scenes/Universe/Index";
 import { Canvas } from "@react-three/fiber";
 import LayerBase from "./Layer";
-import { LayerUsage } from "../../utils/helper";
+import { LayerUsage } from "../../utils/components";
 
 const Layer = styled(LayerBase)`
   transition-property: opacity;

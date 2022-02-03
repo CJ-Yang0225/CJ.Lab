@@ -1,10 +1,3 @@
-export enum LayerUsage {
-  Background,
-  Content,
-  Navigation,
-  Cursor,
-}
-
 export function debounce<F extends (...args: any) => any>(
   this: any,
   callback: F,
