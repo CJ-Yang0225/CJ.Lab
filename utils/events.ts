@@ -1,15 +1,15 @@
 export class EventStore {
   private _listeners: (() => void)[] = [];
 
-  add(
+  add<E extends keyof HTMLElementEventMap>(
     target: EventTarget,
-    type: Event["type"],
-    listener: EventListener,
+    type: E,
+    listener: (this: HTMLElement, event: HTMLElementEventMap[E]) => void,
     options: AddEventListenerOptions = { passive: true }
   ) {
-    target.addEventListener(type, listener, options);
+    target.addEventListener(type, listener as EventListener, options);
     this._listeners.push(
-      removeEventListener.bind(target, type, listener, options)
+      removeEventListener.bind(target, type, listener as EventListener, options)
     );
   }
 
