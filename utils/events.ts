@@ -1,6 +1,11 @@
 export class EventStore {
   private _listeners: (() => void)[] = [];
 
+  constructor() {
+    this.add = this.add.bind(this);
+    this.clean = this.clean.bind(this);
+  }
+
   add<E extends keyof HTMLElementEventMap>(
     target: EventTarget,
     type: E,
