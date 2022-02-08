@@ -55,7 +55,7 @@ export function renderParticles(canvas: HTMLCanvasElement) {
   const particles: Particle[] = [];
 
   const fillParticles = () => {
-    for (let i = 0; i < 4; i++) {
+    for (let i = 0; i < 3; i++) {
       particles.push(new Particle(ctx));
     }
   };
@@ -67,16 +67,18 @@ export function renderParticles(canvas: HTMLCanvasElement) {
 
       if (mode === Mode.bubble) {
         for (let j = i; j < particles.length; j++) {
-          const dx = particles[i].x - particles[j].x;
-          const dy = particles[i].y - particles[j].y;
+          const p1 = particles[i];
+          const p2 = particles[j];
+          const dx = p1.x - p2.x;
+          const dy = p1.y - p2.y;
           const distance = Math.sqrt(dx ** 2 + dy ** 2);
 
           if (distance > 100 && distance < 120) {
             ctx.beginPath();
-            ctx.strokeStyle = particles[i].color;
+            ctx.strokeStyle = p1.color;
             ctx.lineWidth = 0.5;
-            ctx.moveTo(particles[i].x, particles[i].y);
-            ctx.lineTo(particles[j].x, particles[j].y);
+            ctx.moveTo(p1.x, p1.y);
+            ctx.lineTo(p2.x, p2.y);
             ctx.stroke();
             ctx.closePath();
           }
@@ -120,7 +122,7 @@ export function renderParticles(canvas: HTMLCanvasElement) {
     mouse.x = event.clientX;
     mouse.y = event.clientY;
     fillParticles();
-  }, 25);
+  }, 15);
 
   const handleTouchMove = throttle((event: TouchEvent) => {
     const touch = event.touches[0];
@@ -129,7 +131,7 @@ export function renderParticles(canvas: HTMLCanvasElement) {
       clientY: touch.clientY,
     });
     canvas.dispatchEvent(mouseEvent);
-  }, 30);
+  }, 20);
 
   const eventStore = new EventStore();
   eventStore.add(canvas, "click", handleModeSwitch);
