@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useState } from "react";
 import { EventStore } from "../utils/events";
 
 type Listeners = {
@@ -12,7 +12,7 @@ export function useKeyboard(
   keysToListen: string[] = [],
   listeners?: Listeners
 ) {
-  const keySet = useRef(new Set<string>([])).current;
+  const [pressedKeys, setPressedKeys] = useState<string[]>([]);
   keysToListen.forEach((key) => key.toLowerCase());
 
   useEffect(() => {
@@ -23,26 +23,34 @@ export function useKeyboard(
       eventStore.add(window, "keydown", (event) => {
         const key = event.key.toLowerCase();
         if (keysToListen.includes(key)) {
-          keySet.add(key);
+          setPressedKeys((keys) => Array.from(new Set([...keys, key])));
         }
       });
       eventStore.add(window, "keyup", (event) => {
         const key = event.key.toLowerCase();
-        if (keySet.has(key)) {
-          keySet.delete(key);
+        if (pressedKeys.includes(key)) {
+          setPressedKeys((keys) =>
+            keys.filter((pressedKey) => pressedKey !== key)
+          );
         }
       });
     } else {
       eventStore.add(window, "keydown", (event) => {
-        keySet.add(event.key);
+        const key = event.key.toLowerCase();
+        setPressedKeys((keys) => Array.from(new Set([...keys, key])));
       });
       eventStore.add(window, "keyup", (event) => {
-        keySet.delete(event.key);
+        const key = event.key.toLowerCase();
+        if (pressedKeys.includes(key)) {
+          setPressedKeys((keys) =>
+            keys.filter((pressedKey) => pressedKey !== key)
+          );
+        }
       });
     }
 
     return eventStore.clean;
-  }, [keySet, keysToListen, listeners]);
+  }, [pressedKeys, keysToListen, listeners]);
 
-  return keySet;
+  return pressedKeys;
 }
