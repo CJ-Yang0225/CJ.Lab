@@ -5,7 +5,7 @@ import { isMobileDevice, toggleFullScreen } from "../utils/ux";
 import { useIsomorphicLayoutEffect } from "./useIsomorphicLayoutEffect";
 
 export function useCanvas(
-  drawingFunc: (canvas: HTMLCanvasElement) => void
+  drawingFunc?: (canvas: HTMLCanvasElement) => void
 ): JSX.IntrinsicElements["canvas"] & CanvasProps {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [dpr, setDpr] = useState(1);
@@ -27,9 +27,12 @@ export function useCanvas(
 
   useIsomorphicLayoutEffect(() => {
     const canvas = canvasRef.current!;
-    const clean = drawingFunc(canvas);
 
-    return clean;
+    if (drawingFunc) {
+      const clean = drawingFunc(canvas);
+
+      return clean;
+    }
   }, [drawingFunc]);
 
   return { ref: canvasRef, dpr };
