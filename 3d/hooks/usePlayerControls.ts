@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 const movementByKey: Record<string, string> = {
   w: "forward",
@@ -6,28 +6,29 @@ const movementByKey: Record<string, string> = {
   a: "left",
   d: "right",
 };
+const initialMovement: Record<string, boolean> = {
+  forward: false,
+  backward: false,
+  left: false,
+  right: false,
+};
 
 export function usePlayerControls(pressedKeys: string[]) {
-  const [movement, setMovement] = useState({
-    forward: false,
-    backward: false,
-    left: false,
-    right: false,
-  });
+  const movement = useRef({ ...initialMovement });
 
   useEffect(() => {
-    setMovement((movement) => {
-      const pressedKeysMap = pressedKeys.reduce<{ [key: string]: boolean }>(
-        (map, pressedKey) => {
+    movement.current = { ...initialMovement };
+    const pressedKeysMap = pressedKeys.reduce<{ [key: string]: boolean }>(
+      (map, pressedKey) => {
+        if (movementByKey.hasOwnProperty(pressedKey)) {
           map[movementByKey[pressedKey]] = true;
-          return map;
-        },
-        {}
-      );
+        }
+        return map;
+      },
+      {}
+    );
 
-      return { ...movement, ...pressedKeysMap };
-    });
-  }, [pressedKeys]);
-
-  console.log("movement: ", movement);
+    Object.assign(movement.current, pressedKeysMap);
+    console.log("movement: ", movement.current);
+  }, [movement, pressedKeys]);
 }
