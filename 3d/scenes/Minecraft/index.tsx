@@ -1,13 +1,26 @@
 import React from "react";
-import Grass from "./Grass";
+import { Physics } from "@react-three/cannon";
+import { Sky } from "@react-three/drei";
 
- function World() {
+import Grass from "./Grass";
+import Player from "../../controls/Player";
+
+type WorldProps = {
+  ecosystem: string;
+};
+
+function World(props: WorldProps) {
   return (
     <React.Suspense fallback={null}>
-      <Grass />
-
+      <Sky sunPosition={[100, 20, 100]} />
+      <ambientLight intensity={0.3} />
+      <pointLight castShadow intensity={0.8} position={[100, 100, 100]} />
+      <Physics>
+        <Grass />
+        <Player activateCustomControls={false} />
+      </Physics>
     </React.Suspense>
-  )
- }
+  );
+}
 
 export default World;
