@@ -1,4 +1,4 @@
-import React, { Suspense } from "react";
+import React from "react";
 import styled from "@emotion/styled";
 
 import Solar from "../../3d/scenes/Universe/Index";
@@ -20,9 +20,9 @@ function RenderLayer() {
   return (
     <Layer zIndex={LayerUsage.Background}>
       <Canvas>
-        <Suspense fallback={null}>
+        <React.Suspense fallback={null}>
           <Solar />
-        </Suspense>
+        </React.Suspense>
       </Canvas>
     </Layer>
   );
