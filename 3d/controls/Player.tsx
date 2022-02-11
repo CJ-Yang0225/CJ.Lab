@@ -22,7 +22,7 @@ function Player(props: PlayerProps) {
   } = props;
 
   const camera = useThree((state) => state.camera);
-  usePlayerControls()
+  usePlayerControls();
 
   if (activateCustomControls) {
     camera.position.set(...position); // TODO: initial value of gravity and physics
