@@ -16,28 +16,24 @@ export type ControlsProps = {
 function Controls(props: ControlsProps) {
   const {
     activateCustomControls = false,
-    perspective = 1, // TODO: switch perspective: first person & third person
     speed = playerState.SPEED,
     position = [0, playerState.HEIGHT, 0],
     rotation = [0, 0, 0, 1],
   } = props;
 
+  usePlayerControls({ speed, position, rotation });
   const { camera } = useThree();
 
-  usePlayerControls({ speed, position, rotation });
+  useEffect(() => {
+    camera.position.set(...position);
+    camera.quaternion.set(...rotation);
+  }, []);
 
   if (activateCustomControls) {
-    return (
-      <PerspectiveCamera
-        fov={75}
-        far={1000}
-        position={position}
-        quaternion={rotation}
-      />
-    );
+    return <PerspectiveCamera fov={75} far={1000} />;
   }
 
-  return <PointerLockControls position={position} quaternion={rotation} />;
+  return <PointerLockControls />;
 }
 
 export default Controls;
