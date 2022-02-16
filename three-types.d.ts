@@ -14,4 +14,11 @@ declare global {
       >;
     }
   }
+
+  namespace Three {
+    interface Object3D {
+      position: [x: number, y: number, z: number];
+      quaternion: [x: number, y: number, z: number, w: number];
+    }
+  }
 }
