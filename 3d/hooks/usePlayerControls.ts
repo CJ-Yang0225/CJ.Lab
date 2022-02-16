@@ -25,16 +25,21 @@ const speed = new THREE.Vector3();
 
 export type PlayerControlsProps = {
   speed: number;
-  position: Vector3;
-  rotation: Vector4;
+  position: Three.Object3D["position"];
+  quaternion: Three.Object3D["quaternion"];
 };
 
 export function usePlayerControls(props: PlayerControlsProps) {
-  const { speed, position, rotation } = props;
+  const { speed, position, quaternion } = props;
   const movement = useRef({ ...initialMovement });
   const { camera, scene } = useThree();
   const pressedKeys = useKeyboard();
   const velocity = useRef([0, 0, 0]).current; // physicals
+
+  useEffect(() => {
+    camera.position.set(...position);
+    camera.quaternion.set(...quaternion);
+  }, []);
 
   useEffect(() => {
     movement.current = { ...initialMovement };
@@ -64,7 +69,7 @@ export function usePlayerControls(props: PlayerControlsProps) {
       .normalize()
       .multiplyScalar(speed)
       .applyEuler(r);
-    console.log("direction: ", direction);
+    // console.log("direction: ", direction);
     camera.position.set(px + direction.x, py, pz + direction.z);
   });
 
