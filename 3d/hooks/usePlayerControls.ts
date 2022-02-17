@@ -17,11 +17,8 @@ const initialMovement: Record<string, boolean> = {
   right: false,
   jump: false,
 };
-const direction = new THREE.Vector3();
 const frontVector = new THREE.Vector3();
 const sideVector = new THREE.Vector3();
-const rotation = new THREE.Vector3();
-const speed = new THREE.Vector3();
 
 export type PlayerControlsProps = {
   speed: number;
@@ -32,7 +29,7 @@ export type PlayerControlsProps = {
 export function usePlayerControls(props: PlayerControlsProps) {
   const { speed, position, quaternion } = props;
   const movement = useRef({ ...initialMovement });
-  const { camera, scene } = useThree();
+  const { camera } = useThree();
   const pressedKeys = useKeyboard();
   const velocity = useRef([0, 0, 0]).current; // physicals
 
@@ -54,23 +51,25 @@ export function usePlayerControls(props: PlayerControlsProps) {
     );
 
     Object.assign(movement.current, pressedKeysMap);
-    // console.log("movement: ", movement.current);
   }, [movement, pressedKeys]);
 
   useFrame(() => {
     const { forward, backward, left, right, jump } = movement.current;
-    frontVector.set(0, 0, Number(backward) - Number(forward));
-    sideVector.set(Number(right) - Number(left), 0, 0);
+    const direction = new THREE.Vector3();
+    const frontScalar = Number(backward) - Number(forward);
+    const sideScalar = Number(right) - Number(left);
+    frontVector
+      .setFromMatrixColumn(camera.matrix, 0)
+      .cross(camera.up)
+      .multiplyScalar(frontScalar);
+    sideVector.setFromMatrixColumn(camera.matrix, 0).multiplyScalar(sideScalar);
     const { x: px, y: py, z: pz } = camera.position;
-    const { x: rx, y: ry, z: rz } = camera.rotation;
-    const r = new THREE.Euler(rx, ry, rz, "XYZ");
     direction
       .addVectors(frontVector, sideVector)
       .normalize()
-      .multiplyScalar(speed)
-      .applyEuler(r);
-    // console.log("direction: ", direction);
+      .multiplyScalar(speed);
     camera.position.set(px + direction.x, py, pz + direction.z);
+    // console.log("direction:", direction, camera.position);
   });
 
   return;
