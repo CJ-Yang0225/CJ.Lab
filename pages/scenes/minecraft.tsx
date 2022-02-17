@@ -4,6 +4,7 @@ import { Canvas } from "@react-three/fiber";
 import World from "../../3d/scenes/Minecraft";
 import { useCanvas } from "../../hooks/useCanvas";
 import Layer from "../../components/layers/Layer";
+import UI from "../../components/common/UI";
 
 type MinecraftProps = {
   ecosystem: string;
@@ -28,6 +29,7 @@ function Minecraft(props: MinecraftProps) {
       >
         <World ecosystem={ecosystem} />
       </Canvas>
+      <UI />
     </Layer.Container>
   );
 }
