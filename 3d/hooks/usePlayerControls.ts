@@ -1,7 +1,8 @@
 import { useEffect, useRef } from "react";
 import * as THREE from "three";
-import { useFrame, useThree, Vector3, Vector4 } from "@react-three/fiber";
+import { useFrame, useThree } from "@react-three/fiber";
 import { useKeyboard } from "../../hooks/useKeyboard";
+import { useCylinder } from "@react-three/cannon";
 
 const movementByKey: Record<string, string> = {
   w: "forward",
@@ -31,12 +32,24 @@ export function usePlayerControls(props: PlayerControlsProps) {
   const movement = useRef({ ...initialMovement });
   const { camera } = useThree();
   const pressedKeys = useKeyboard();
-  const velocity = useRef([0, 0, 0]).current; // physicals
+  const [cylinderRef, api] = useCylinder(() => ({
+    mass: 60,
+    position,
+    args: [0.2, 0.2, position[1], 32],
+    material: {
+      friction: 0,
+    },
+    fixedRotation: true,
+  }));
+  const velocity = useRef([0, 0, 0]); // physicals
 
   useEffect(() => {
-    camera.position.set(...position);
-    camera.quaternion.set(...quaternion);
-  }, []);
+    const unsubscribe = api.velocity.subscribe((vel) => {
+      velocity.current = vel;
+    });
+
+    return unsubscribe;
+  }, [api]);
 
   useEffect(() => {
     movement.current = { ...initialMovement };
@@ -55,22 +68,22 @@ export function usePlayerControls(props: PlayerControlsProps) {
 
   useFrame(() => {
     const { forward, backward, left, right, jump } = movement.current;
+    cylinderRef.current?.getWorldPosition(camera.position);
     const direction = new THREE.Vector3();
     const frontScalar = Number(backward) - Number(forward);
     const sideScalar = Number(right) - Number(left);
     frontVector
-      .setFromMatrixColumn(camera.matrix, 0)
-      .cross(camera.up)
+      .setFromMatrixColumn(camera.matrix, 0) // first column of camera matrix is right vector
+      .cross(camera.up) // calculate the vector perpendicular to both camera up and camera right
       .multiplyScalar(frontScalar);
     sideVector.setFromMatrixColumn(camera.matrix, 0).multiplyScalar(sideScalar);
-    const { x: px, y: py, z: pz } = camera.position;
     direction
       .addVectors(frontVector, sideVector)
       .normalize()
       .multiplyScalar(speed);
-    camera.position.set(px + direction.x, py, pz + direction.z);
-    // console.log("direction:", direction, camera.position);
+    api.velocity.set(direction.x, velocity.current[1], direction.z);
+    // console.log(direction, camera.position);
   });
 
-  return;
+  return cylinderRef;
 }
