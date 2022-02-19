@@ -2,7 +2,11 @@ import { PlaneProps, usePlane } from "@react-three/cannon";
 
 function Grass(props: PlaneProps) {
   const [planeRef] = usePlane(() => ({
+    position: [0, -0.5, 0],
     rotation: [-Math.PI / 2, 0, 0],
+    material: {
+      friction: 1,
+    },
     ...props,
   }));
 
