@@ -34,7 +34,7 @@ export function usePlayerControls(props: PlayerControlsProps) {
   const pressedKeys = useKeyboard();
   const [cylinderRef, api] = useCylinder(() => ({
     mass: 60,
-    position,
+    position: [0, 3, 0],
     args: [0.2, 0.2, position[1], 32],
     material: {
       friction: 0,
