@@ -88,7 +88,7 @@ export function usePlayerControls(props: PlayerControlsProps) {
       .normalize()
       .multiplyScalar(speed);
 
-    // BUG: player.velocity.y when hot reloading
+    // BUG: player.velocity.y will has bug when hot reloading
     let jumpSpeed = 0;
     if (jump) {
       const now = Date.now();
