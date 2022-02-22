@@ -10,6 +10,7 @@ const movementByKey: Record<string, string> = {
   a: "left",
   d: "right",
   " ": "jump",
+  shift: "sprint",
 };
 const initialMovement: Record<string, boolean> = {
   forward: false,
@@ -17,6 +18,7 @@ const initialMovement: Record<string, boolean> = {
   left: false,
   right: false,
   jump: false,
+  sprint: false,
 };
 const frontVector = new THREE.Vector3();
 const sideVector = new THREE.Vector3();
@@ -96,6 +98,11 @@ export function usePlayerControls(props: PlayerControlsProps) {
         jumpSpeed = 4;
         console.log("jump!");
       }
+    }
+
+    if (sprint) {
+      direction.multiplyScalar(1.5);
+      console.log("sprint!");
     }
 
     player.velocity.set(direction.x, player.velocity.y, direction.z);
