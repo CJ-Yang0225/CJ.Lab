@@ -33,12 +33,12 @@ const Cube = (props: any) => {
 function World(props: WorldProps) {
   return (
     <React.Suspense fallback={null}>
-      <Sky sunPosition={[100, 20, 100]} distance={1000} />
+      <Sky sunPosition={[100, 100, 100]} distance={1000} />
       <ambientLight intensity={0.3} />
       <pointLight castShadow intensity={0.8} position={[100, 100, 100]} />
       <Physics
         allowSleep={false}
-        gravity={[0, -9.81, 0]}
+        gravity={[0, -10, 0]}
         tolerance={0}
         iterations={50}
         broadphase={"Naive"}
