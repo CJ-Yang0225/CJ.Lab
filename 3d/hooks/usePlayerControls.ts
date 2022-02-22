@@ -24,17 +24,16 @@ const sideVector = new THREE.Vector3();
 export type PlayerControlsProps = {
   speed: number;
   position: Three.Object3D["position"];
-  quaternion: Three.Object3D["quaternion"];
 };
 
 export function usePlayerControls(props: PlayerControlsProps) {
-  const { speed, position, quaternion } = props;
+  const { speed, position } = props;
   const movement = useRef({ ...initialMovement });
   const { camera } = useThree();
   const pressedKeys = useKeyboard();
   const [cylinderRef, api] = useCylinder(() => ({
     mass: 60,
-    position: [0, 3, 0],
+    position: [0, position[1] + 1, 0],
     args: [0.2, 0.2, position[1], 32],
     material: {
       friction: 0,
