@@ -16,7 +16,6 @@ function Player(props: PlayerProps) {
   const ref = usePlayerControls({
     speed,
     position: [0, height, 0],
-    quaternion,
   });
 
   return (
