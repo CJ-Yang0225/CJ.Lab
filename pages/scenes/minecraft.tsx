@@ -19,7 +19,7 @@ function Minecraft(props: MinecraftProps) {
         dpr={dpr}
         shadows
         gl={{ alpha: false }}
-        camera={{ position: [0, 1, 5], fov: 75 }}
+        camera={{ fov: 75 }}
         raycaster={{
           computeOffsets: (e) => ({
             offsetX: e.target.width / 2,
