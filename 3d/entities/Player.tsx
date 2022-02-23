@@ -4,14 +4,12 @@ import { playerState } from "../three.config";
 export type PlayerProps = {
   speed?: number;
   height?: number;
-  quaternion?: Three.Object3D["quaternion"];
 };
 
 function Player(props: PlayerProps) {
   const {
     speed = playerState.SPEED,
     height = playerState.HEIGHT,
-    quaternion = [0, 0, 0, 1],
   } = props;
   const ref = usePlayerControls({
     speed,
