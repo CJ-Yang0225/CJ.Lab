@@ -1,33 +1,14 @@
-import React, { useState } from "react";
-import { Physics, useBox } from "@react-three/cannon";
+import React from "react";
+import { Physics } from "@react-three/cannon";
 import { Sky } from "@react-three/drei";
 
 import Grass from "./Grass";
 import Controls from "../../controls/Controls";
 import Player from "../../entities/Player";
+import { Cube } from "../../entities/Shapes";
 
 type WorldProps = {
   ecosystem: string;
-};
-
-// decoration test
-const Cube = (props: any) => {
-  const [color, setColor] = useState("white");
-  const [cubeRef, api] = useBox(() => ({
-    mass: 30,
-    args: [0.5, 0.5, 0.5],
-    material: {
-      friction: 1,
-      restitution: 0,
-    },
-    ...props,
-  }));
-  return (
-    <mesh ref={cubeRef} castShadow layers={props.layers}>
-      <boxBufferGeometry args={[0.5, 0.5, 0.5]} />
-      <meshLambertMaterial color={color} />
-    </mesh>
-  );
 };
 
 function World(props: WorldProps) {
