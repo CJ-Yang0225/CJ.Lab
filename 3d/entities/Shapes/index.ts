@@ -1,1 +1,3 @@
-export { default } from "./Cube";
+import Cube from "./Cube";
+
+export { Cube };
