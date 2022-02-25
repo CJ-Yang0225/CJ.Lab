@@ -96,13 +96,11 @@ export function usePlayerControls(props: PlayerControlsProps) {
         player.timeToJump = now + jumpCoolDown;
         player.jumping = true;
         jumpSpeed = 4;
-        console.log("jump!");
       }
     }
 
     if (sprint) {
       direction.multiplyScalar(1.5);
-      console.log("sprint!");
     }
 
     player.velocity.set(direction.x, player.velocity.y, direction.z);
