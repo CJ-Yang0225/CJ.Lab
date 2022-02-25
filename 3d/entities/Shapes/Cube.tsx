@@ -33,7 +33,7 @@ function Cube(props: CubeProps) {
     },
     ...props,
   }));
-  console.log("color:", materialColor);
+
   return (
     <mesh ref={cubeRef} castShadow layers={layers}>
       <boxBufferGeometry args={[0.5, 0.5, 0.5]} />
