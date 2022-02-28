@@ -19,6 +19,7 @@ function Canvas(
     const canvas = document.querySelector("canvas")!;
     const ctx = canvas?.getContext && canvas.getContext("2d")!;
 
+    canvas.style.display = "block";
     canvas.style.width = width + "px";
     canvas.style.height = height + "px";
     ctx.scale(dpr, dpr);
