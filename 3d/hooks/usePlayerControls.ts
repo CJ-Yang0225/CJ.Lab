@@ -23,6 +23,7 @@ const initialMovement: Record<string, boolean> = {
 const frontVector = new THREE.Vector3();
 const sideVector = new THREE.Vector3();
 const jumpCoolDown = 950;
+const jumpSpeed = 4;
 
 export type PlayerControlsProps = {
   speed: number;
@@ -53,7 +54,6 @@ export function usePlayerControls(props: PlayerControlsProps) {
     const unsubscribe = api.velocity.subscribe((vel) => {
       player.velocity.fromArray(vel);
     });
-    console.log("side effect");
     return unsubscribe;
   }, [api.velocity, player.velocity]);
 
@@ -74,42 +74,39 @@ export function usePlayerControls(props: PlayerControlsProps) {
 
   useFrame(() => {
     const { forward, backward, left, right, jump, sprint } = movement.current;
-    cylinderRef.current?.getWorldPosition(camera.position); // returns cylinder's position vector to camera
     const direction = new THREE.Vector3();
-    const frontScalar = Number(backward) - Number(forward);
-    const sideScalar = Number(right) - Number(left);
-    frontVector
-      .setFromMatrixColumn(camera.matrix, 0) // first column of camera matrix is right vector
-      .cross(camera.up) // calculate the vector perpendicular to both camera up and camera right
-      .multiplyScalar(frontScalar);
-    sideVector.setFromMatrixColumn(camera.matrix, 0).multiplyScalar(sideScalar);
-    direction
-      .addVectors(frontVector, sideVector)
-      .normalize()
-      .multiplyScalar(speed);
+    if (forward || backward || left || right) {
+      const frontScalar = Number(backward) - Number(forward);
+      const sideScalar = Number(right) - Number(left);
+      frontVector
+        .setFromMatrixColumn(camera.matrix, 0) // first column of camera matrix is right vector
+        .cross(camera.up) // calculate the vector perpendicular to both camera up and camera right
+        .multiplyScalar(frontScalar);
+      sideVector
+        .setFromMatrixColumn(camera.matrix, 0)
+        .multiplyScalar(sideScalar);
+      direction
+        .addVectors(frontVector, sideVector)
+        .normalize()
+        .multiplyScalar(speed);
 
-    // BUG: player.velocity.y will has bug when hot reloading
-    let jumpSpeed = 0;
+      if (sprint) {
+        direction.multiplyScalar(1.5);
+      }
+    }
+
+    // BUG: player.velocity.y will have a bug when hot reloading
     if (jump) {
       const now = Date.now();
       if (now > player.timeToJump) {
         player.timeToJump = now + jumpCoolDown;
         player.jumping = true;
-        jumpSpeed = 4;
+        player.velocity.y += jumpSpeed;
       }
     }
 
-    if (sprint) {
-      direction.multiplyScalar(1.5);
-    }
-
-    player.velocity.set(direction.x, player.velocity.y, direction.z);
-    api.velocity.set(
-      player.velocity.x,
-      player.velocity.y + jumpSpeed,
-      player.velocity.z
-    );
-    // console.log("y:", player.velocity.y.toFixed(2));
+    api.velocity.set(direction.x, player.velocity.y, direction.z);
+    cylinderRef.current?.getWorldPosition(camera.position); // returns cylinder's world position to camera
   });
 
   return cylinderRef;
