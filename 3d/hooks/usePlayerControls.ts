@@ -22,23 +22,23 @@ const initialMovement: Record<string, boolean> = {
 };
 const frontVector = new THREE.Vector3();
 const sideVector = new THREE.Vector3();
-const jumpCoolDown = 950;
+const jumpCoolDown = 500;
 const jumpSpeed = 4;
 
 export type PlayerControlsProps = {
   speed: number;
-  position: Three.Object3D["position"];
+  height: number;
 };
 
 export function usePlayerControls(props: PlayerControlsProps) {
-  const { speed, position } = props;
+  const { speed, height } = props;
   const movement = useRef({ ...initialMovement });
-  const { camera } = useThree();
+  const { camera, scene } = useThree();
   const pressedKeys = useKeyboard();
   const [cylinderRef, api] = useCylinder(() => ({
     mass: 60,
-    position: [0, position[1] + 1, 0],
-    args: [0.2, 0.2, position[1], 32],
+    position: [0, height, 0],
+    args: [0.2, 0.2, height, 32],
     material: {
       friction: 0,
     },
@@ -96,12 +96,26 @@ export function usePlayerControls(props: PlayerControlsProps) {
     }
 
     // BUG: player.velocity.y will have a bug when hot reloading
-    if (jump) {
+    if (jump && !player.jumping) {
       const now = Date.now();
       if (now > player.timeToJump) {
         player.timeToJump = now + jumpCoolDown;
         player.jumping = true;
         player.velocity.y += jumpSpeed;
+      }
+    }
+
+    if (player.jumping && Math.abs(+player.velocity.y.toFixed(2)) === 0) {
+      const raycaster = new THREE.Raycaster(
+        camera.position,
+        new THREE.Vector3(0, -1, 0),
+        0,
+        camera.position.y + 0.25  // add 0.25 because of grass y-axis -0.25
+      );
+
+      const intersects = raycaster.intersectObjects(scene.children);
+      if (intersects.length > 0) {
+        player.jumping = false;
       }
     }
 
