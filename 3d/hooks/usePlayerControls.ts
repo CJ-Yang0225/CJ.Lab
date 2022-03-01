@@ -105,12 +105,12 @@ export function usePlayerControls(props: PlayerControlsProps) {
       }
     }
 
-    if (player.jumping && Math.abs(+player.velocity.y.toFixed(2)) === 0) {
+    if (player.jumping && +player.velocity.y.toFixed(2) === 0) {
       const raycaster = new THREE.Raycaster(
         camera.position,
         new THREE.Vector3(0, -1, 0),
         0,
-        camera.position.y + 0.25  // add 0.25 because of grass y-axis -0.25
+        camera.position.y + 0.25  // add 0.25 for grass y-axis -0.25
       );
 
       const intersects = raycaster.intersectObjects(scene.children);
