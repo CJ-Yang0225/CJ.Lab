@@ -13,12 +13,12 @@ function Player(props: PlayerProps) {
   } = props;
   const ref = usePlayerControls({
     speed,
-    position: [0, height, 0],
+    height,
   });
 
   return (
     <mesh ref={ref}>
-      <cylinderBufferGeometry args={[0.5, 0.5, height, 32]} />
+      <cylinderBufferGeometry args={[0.25, 0.25, height, 32]} />
       <meshPhongMaterial color={"hotpink"} />
     </mesh>
   );
