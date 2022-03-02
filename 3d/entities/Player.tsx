@@ -7,10 +7,7 @@ export type PlayerProps = {
 };
 
 function Player(props: PlayerProps) {
-  const {
-    speed = playerState.SPEED,
-    height = playerState.HEIGHT,
-  } = props;
+  const { speed = playerState.SPEED, height = playerState.HEIGHT } = props;
   const ref = usePlayerControls({
     speed,
     height,
