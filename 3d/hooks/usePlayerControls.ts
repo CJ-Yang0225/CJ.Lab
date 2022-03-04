@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useLayoutEffect, useRef } from "react";
 import * as THREE from "three";
 import { useFrame, useThree } from "@react-three/fiber";
 import { useKeyboard } from "../../hooks/useKeyboard";
@@ -50,14 +50,21 @@ export function usePlayerControls(props: PlayerControlsProps) {
     velocity: new THREE.Vector3(),
   }).current;
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     const unsubscribe = api.velocity.subscribe((vel) => {
       player.velocity.fromArray(vel);
     });
+    // @ts-ignore
+    cylinderRef.current?.geometry.center();
+    // @ts-ignore
+    console.log("geo:", cylinderRef.current?.geometry);
+    // @ts-ignore
+    cylinderRef.current?.geometry.translate(0, height / 2, 0);
+    camera.position.set(2, 0, 3);
     return unsubscribe;
-  }, [api.velocity, player.velocity]);
+  }, []);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     movement.current = { ...initialMovement };
     const pressedKeysMap = pressedKeys.reduce<{ [key: string]: boolean }>(
       (map, pressedKey) => {
@@ -92,6 +99,9 @@ export function usePlayerControls(props: PlayerControlsProps) {
 
       if (sprint) {
         direction.multiplyScalar(1.5);
+        console.log("velocity:", player.velocity.y.toFixed(2));
+        console.log("player:", cylinderRef.current);
+        console.log("camera:", camera);
       }
     }
 
@@ -105,12 +115,12 @@ export function usePlayerControls(props: PlayerControlsProps) {
       }
     }
 
-    if (player.jumping && +player.velocity.y.toFixed(2) === 0) {
+    if (player.jumping && player.velocity.y.toFixed(2) === "0.00") {
       const raycaster = new THREE.Raycaster(
         camera.position,
         new THREE.Vector3(0, -1, 0),
         0,
-        camera.position.y + 0.25  // add 0.25 for grass y-axis -0.25
+        camera.position.y + 0.25 // add 0.25 for grass y-axis -0.25
       );
 
       const intersects = raycaster.intersectObjects(scene.children);
@@ -120,7 +130,7 @@ export function usePlayerControls(props: PlayerControlsProps) {
     }
 
     api.velocity.set(direction.x, player.velocity.y, direction.z);
-    cylinderRef.current?.getWorldPosition(camera.position); // returns cylinder's world position to camera
+    // cylinderRef.current?.getWorldPosition(camera.position); // returns cylinder's world position to camera
   });
 
   return cylinderRef;

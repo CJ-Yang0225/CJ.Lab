@@ -24,8 +24,9 @@ function World(props: WorldProps) {
         iterations={50}
         broadphase={"Naive"}
       >
+        <axesHelper args={[3]} position={[0, -0.25, 0]} />
         <Grass />
-        <Player height={2} />
+        <Player height={1} />
         <Cube position={[0, 0, -5]} layers={1} />
         <Cube position={[-0.6, 0, -5]} />
         <Cube position={[0.6, 0, -5]} />
@@ -36,6 +37,7 @@ function World(props: WorldProps) {
         <Cube position={[-5, 0.5, -5]} />
         <Cube position={[-5, 1, -5]} />
         <Cube position={[-5, 1.5, -5]} />
+        <Cube position={[-4, 2, -5]} type="Static" />
       </Physics>
       <Controls activateCustomControls={false} />
     </React.Suspense>
