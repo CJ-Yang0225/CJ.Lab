@@ -37,7 +37,7 @@ function World(props: WorldProps) {
         <Cube position={[-5, 0.5, -5]} />
         <Cube position={[-5, 1, -5]} />
         <Cube position={[-5, 1.5, -5]} />
-        <Cube position={[-4, 2, -5]} type="Static" />
+        <Cube position={[-4.5, 1.5, -5]} type="Static" />
       </Physics>
       <Controls activateCustomControls={false} />
     </React.Suspense>
