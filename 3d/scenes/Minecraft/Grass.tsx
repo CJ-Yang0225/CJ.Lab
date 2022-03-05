@@ -2,7 +2,7 @@ import { PlaneProps, usePlane } from "@react-three/cannon";
 
 function Grass(props: PlaneProps) {
   const [planeRef] = usePlane(() => ({
-    position: [0, -0.25, 0],  // Y-axis -0.5 because of Cube position
+    position: [0, -0.25, 0], // y-axis -0.25 because the length from the center point of Cube to the face is 0.25
     rotation: [-Math.PI / 2, 0, 0],
     material: {
       friction: 1,
