@@ -20,7 +20,6 @@ const initialMovement: Record<string, boolean> = {
   jump: false,
   sprint: false,
 };
-const direction = new THREE.Vector3();
 const frontVector = new THREE.Vector3();
 const sideVector = new THREE.Vector3();
 const jumpCoolDown = 500;
@@ -74,6 +73,7 @@ export function usePlayerControls(props: PlayerControlsProps) {
     Object.assign(movement.current, pressedKeysMap);
   }, [movement, pressedKeys]);
 
+  const direction = new THREE.Vector3();
   useFrame(() => {
     const { forward, backward, left, right, jump, sprint } = movement.current;
 
