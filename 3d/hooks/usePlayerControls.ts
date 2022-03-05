@@ -20,6 +20,7 @@ const initialMovement: Record<string, boolean> = {
   jump: false,
   sprint: false,
 };
+const direction = new THREE.Vector3();
 const frontVector = new THREE.Vector3();
 const sideVector = new THREE.Vector3();
 const jumpCoolDown = 500;
@@ -38,7 +39,7 @@ export function usePlayerControls(props: PlayerControlsProps) {
   const [cylinderRef, api] = useCylinder(() => ({
     mass: 60,
     position: [0, height, 0],
-    args: [0.2, 0.2, height, 32],
+    args: [0.2, 0.2, height, 32], // TODO: fix see through objects when jumping
     material: {
       friction: 0,
     },
@@ -54,13 +55,7 @@ export function usePlayerControls(props: PlayerControlsProps) {
     const unsubscribe = api.velocity.subscribe((vel) => {
       player.velocity.fromArray(vel);
     });
-    // @ts-ignore
-    cylinderRef.current?.geometry.center();
-    // @ts-ignore
-    console.log("geo:", cylinderRef.current?.geometry);
-    // @ts-ignore
-    cylinderRef.current?.geometry.translate(0, height / 2, 0);
-    camera.position.set(2, 0, 3);
+
     return unsubscribe;
   }, []);
 
@@ -81,7 +76,7 @@ export function usePlayerControls(props: PlayerControlsProps) {
 
   useFrame(() => {
     const { forward, backward, left, right, jump, sprint } = movement.current;
-    const direction = new THREE.Vector3();
+
     if (forward || backward || left || right) {
       const frontScalar = Number(backward) - Number(forward);
       const sideScalar = Number(right) - Number(left);
@@ -99,9 +94,6 @@ export function usePlayerControls(props: PlayerControlsProps) {
 
       if (sprint) {
         direction.multiplyScalar(1.5);
-        console.log("velocity:", player.velocity.y.toFixed(2));
-        console.log("player:", cylinderRef.current);
-        console.log("camera:", camera);
       }
     }
 
@@ -130,7 +122,8 @@ export function usePlayerControls(props: PlayerControlsProps) {
     }
 
     api.velocity.set(direction.x, player.velocity.y, direction.z);
-    // cylinderRef.current?.getWorldPosition(camera.position); // returns cylinder's world position to camera
+    cylinderRef.current?.getWorldPosition(camera.position); // returns cylinder's world position to camera
+    camera.position.y += height / 2;
   });
 
   return cylinderRef;
