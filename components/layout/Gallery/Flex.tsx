@@ -1,4 +1,4 @@
-import styles from "./flex.module.scss";
+import styles from "./Flex.module.scss";
 
 export interface FlexProps extends IntrinsicElementProps<"div"> {}
 
