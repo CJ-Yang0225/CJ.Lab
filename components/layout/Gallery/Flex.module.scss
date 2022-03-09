@@ -1,0 +1,10 @@
+.flex-box {
+  position: absolute;
+  left: 50%;
+  transform: translate(-50%, 0);
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: stretch;
+  align-items: flex-start;
+  width: 100%;
+}
