@@ -1,10 +1,11 @@
 .flex-box {
-  position: absolute;
-  left: 50%;
-  transform: translate(-50%, 0);
   display: flex;
   flex-wrap: wrap;
-  justify-content: stretch;
+  justify-content: space-between;
   align-items: flex-start;
-  width: 100%;
+
+  &::after {
+    content: "";
+    flex-grow: 1;
+  }
 }

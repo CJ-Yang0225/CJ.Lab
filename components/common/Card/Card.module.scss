@@ -1,13 +1,14 @@
 .card-paper {
-  float: left;
   display: flex;
-  justify-content: center;
+  flex-direction: column;
+  justify-content: flex-start;
   align-items: center;
-  margin: 0.75em;
+  margin: calc(10% / 3 / 2);
   padding: 0.5em 1em;
   width: 30%;
   height: 250px;
   border-radius: 0.75em;
   border: 1px solid #920092;
   background-image: linear-gradient(135deg, transparent, #ffa2ff);
+  overflow: hidden;
 }
