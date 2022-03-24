@@ -8,13 +8,14 @@ import vertex from "./vertex.vert";
 import fragment from "./fragment.frag";
 
 export const WaveShaderMaterial = shaderMaterial(
+  // Uniform
   {
     u_time: 0,
-    u_color: new THREE.Color(0.0, 0.0, 0.0),
+    u_color: new THREE.Color(),
     u_texture: new THREE.Texture(),
   },
-  vertex,
-  fragment
+  vertex, // Vertex Shader
+  fragment // Fragment Shader
 );
 
 extend({ WaveShaderMaterial });
