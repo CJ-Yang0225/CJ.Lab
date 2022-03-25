@@ -1,29 +1,16 @@
 import React, { useEffect, useRef } from "react";
-import { extend, useFrame } from "@react-three/fiber";
-import { shaderMaterial } from "@react-three/drei";
+import { extend, useFrame, useLoader } from "@react-three/fiber";
 import * as THREE from "three";
 
-// @ts-ignore
-import vertex from "../../glsl/waveEffect/vertex.vert";
-// @ts-ignore
-import fragment from "../../glsl/waveEffect/fragment.frag";
-import { Material, Mesh, ShaderMaterial } from "three";
 import { WaveShaderMaterial } from "../../glsl/waveEffect";
-
-// export const WaveShaderMaterial = shaderMaterial(
-//   {
-//     u_time: 0,
-//     u_color: new THREE.Color(0.0, 0.0, 0.0),
-//     u_texture: new THREE.Texture(),
-//   },
-//   vertex,
-//   fragment
-// );
 
 extend({ WaveShaderMaterial });
 
 function WaveBanner() {
-  const meshRef = useRef<Mesh | null>(null) as any;
+  const [flagTexture] = useLoader(THREE.TextureLoader, [
+    "/textures/Flag_of_the_Republic_of_China.png",
+  ]);
+  const meshRef = useRef<THREE.Mesh | null>(null) as any;
 
   useFrame(({ clock }) => {
     if (meshRef.current) {
@@ -38,7 +25,10 @@ function WaveBanner() {
   return (
     <mesh ref={meshRef}>
       <planeBufferGeometry args={[0.8, 0.6, 24, 24]} />
-      <waveShaderMaterial wireframe u_color="hotpink" />
+      <waveShaderMaterial
+        u_texture={flagTexture}
+        u_color={new THREE.Color(0x000096)}
+      />
     </mesh>
   );
 }

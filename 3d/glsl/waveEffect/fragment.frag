@@ -1,6 +1,7 @@
 precision mediump float;
 
 uniform sampler2D u_texture;
+// uniform vec3 u_color;
 
 varying vec2 v_uv;
 varying float v_wave;
