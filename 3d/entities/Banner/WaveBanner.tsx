@@ -18,10 +18,6 @@ function WaveBanner() {
     }
   });
 
-  useEffect(() => {
-    console.log("mounted");
-  }, []);
-
   return (
     <mesh ref={meshRef}>
       <planeBufferGeometry args={[0.8, 0.6, 24, 24]} />
