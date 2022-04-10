@@ -51,20 +51,37 @@ export function isMobileDevice() {
     "BlackBerry",
     "Windows Phone",
   ];
+
+  // navigator.userAgent.match(/(phone|pad|pod|iPhone|iPod|ios|iPad|Android|Mobile|BlackBerry|IEMobile|MQQBrowser|JUC|Fennec|wOSBrowser|BrowserNG|WebOS|Symbian|Windows Phone)/i);
   const isMobileDevice = mobileDevice.some((event) =>
     navigator.userAgent.match(event)
   );
   return isMobileDevice;
 }
 
+interface DocumentFullscreenAPI {
+  mozCancelFullScreen?: () => Promise<void>;
+  msExitFullscreen?: () => Promise<void>;
+  webkitExitFullscreen?: () => Promise<void>;
+  mozFullScreenElement?: Element;
+  msFullscreenElement?: Element;
+  webkitFullscreenElement?: Element;
+}
+
+interface HTMLElementFullscreenAPI {
+  msRequestFullscreen?: () => Promise<void>;
+  mozRequestFullScreen?: () => Promise<void>;
+  webkitRequestFullscreen?: () => Promise<void>;
+}
+
 export function toggleFullScreen() {
-  const doc = window.document as any;
-  const docEl = doc.documentElement;
+  const doc = window.document as Document & DocumentFullscreenAPI;
+  const docEl = doc.documentElement as HTMLElement & HTMLElementFullscreenAPI;
 
   const requestFullScreen =
     docEl.requestFullscreen ||
     docEl.mozRequestFullScreen ||
-    docEl.webkitRequestFullScreen ||
+    docEl.webkitRequestFullscreen ||
     docEl.msRequestFullscreen;
   const cancelFullScreen =
     doc.exitFullscreen ||
